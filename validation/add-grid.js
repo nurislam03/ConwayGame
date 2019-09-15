@@ -8,17 +8,17 @@ module.exports = function validateGridInput(data) {
   data.y = !isEmpty(data.y) ? data.y : '';
   data.data = !isEmpty(data.data) ? data.data : '';
 
-//   if (!Validator.isNumeric(data.x)) {
-//     errors.x = 'x must be a Number';
-//   }
+  if (!Validator.isNumeric(data.x)) {
+    errors.x = 'x must be a Number';
+  }
 
   if (Validator.isEmpty(data.x)) {
     errors.x = 'x field data is required';
   }
 
-//   if (!Validator.isNumeric(data.y)) {
-//     errors.y = 'y must be a Number';
-//   }
+  if (!Validator.isNumeric(data.y)) {
+    errors.y = 'y must be a Number';
+  }
 
   if (Validator.isEmpty(data.y)) {
     errors.y = 'y field data is required';
