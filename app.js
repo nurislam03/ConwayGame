@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+// initializing routes
+const games = require('./routes/api/games');
+
 const app = express();
 
 // DB congig
@@ -16,6 +19,9 @@ mongoose
   .catch(err => console.log(err));
 
 app.get('/', (req, res) => res.send('Hello world!'));
+
+// use Routes
+app.use('/api/games', games);
 
 const port = process.env.PORT || 8082;
 
