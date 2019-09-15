@@ -11,6 +11,12 @@
     ```
 - now you can run each APIs from postman or any other api testing tool.
 
+
+###### NOTE:
+- '*' means alive cell
+- '.' means dead cell
+
+
 ### APIs details:
 ###### API endpint: localhost
 - Method: GET
