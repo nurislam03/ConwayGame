@@ -1,0 +1,24 @@
+{
+  "name": "conwaygame",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nurislam03/ConwayGame.git"
+  },
+  "author": "Nur Islam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nurislam03/ConwayGame/issues"
+  },
+  "homepage": "https://github.com/nurislam03/ConwayGame#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.1",
+    "validator": "^11.1.0"
+  }
+}
