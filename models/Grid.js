@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 // Create Schema
 const GridSchema = new Schema({
   x: {
-    type: String,
+    type: Number,
     required: true
   },
   y: {
-    type: String,
+    type: Number,
     required: true
   },
   data: {
