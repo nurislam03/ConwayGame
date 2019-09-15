@@ -39,6 +39,27 @@ router.post('/', (req, res) => {
     });
 });
 
+// @route patch /grids/:id
+// @description update grid
+// @access Public
+router.patch('/:id', (req, res) => {
+    const { errors, isValid } = validateGridInput(req.body);
+
+    // Chek Validation
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    Grid.findByIdAndUpdate(req.params.id, req.body)
+    .then(grid => {
+        res.status(202).json({ msg: 'Updated successfully' })
+    })
+    .catch(err => {
+        res.status(400).json({ error: 'Unable to update the Database' })
+    });
+});
+
+
 
 
 module.exports = router;
