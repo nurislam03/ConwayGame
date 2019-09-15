@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 // initializing routes
-const games = require('./routes/api/games');
+const grids = require('./routes/grids');
 
 const app = express();
 
@@ -21,7 +21,7 @@ mongoose
 app.get('/', (req, res) => res.send('Hello world!'));
 
 // use Routes
-app.use('/api/games', games);
+app.use('/grids', grids);
 
 const port = process.env.PORT || 8082;
 
