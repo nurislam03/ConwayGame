@@ -89,11 +89,89 @@ makeGameGrid = (x, y, gridString) => {
     return gridArray;
 }
 
-
-stateAfterMoves = (x, y, presentGrid, presentState, nextState) => {
-    // return nextState of grid representation
+IsValid = (a, b, x, y) => {
+    return ( ( a < x && a >= 0 ) && ( b < y && b >= 0 ) ) ? true:false;
 }
 
+// const fx = {};
+// const fy = {};
+
+checkNeighbor = (i, k, presentGrid) => {
+    var count = 0;
+
+    var newX = i+(-1);
+    var newY = k+0;
+    if(IsValid(newX, newY) && presentGrid[newx][newY] == '*') count++;
+
+    newX = i+(-1); newY = k+(+1);
+    if(IsValid(newX, newY) && presentGrid[newx][newY] == '*') count++;
+
+    newX = i+(+0); newY = k+(+1);
+    if(IsValid(newX, newY) && presentGrid[newx][newY] == '*') count++;
+
+    newX = i+(+1); newY = k+(+1);
+    if(IsValid(newX, newY) && presentGrid[newx][newY] == '*') count++;
+
+    newX = i+(+1); newY = k+(+0);
+    if(IsValid(newX, newY) && presentGrid[newx][newY] == '*') count++;
+
+    newX = i+(+1); newY = k+(-1);
+    if(IsValid(newX, newY) && presentGrid[newx][newY] == '*') count++;
+
+    newX = i+(+0); newY = k+(-1);
+    if(IsValid(newX, newY) && presentGrid[newx][newY] == '*') count++;
+
+    newX = i+(-1); newY = k+(-1);
+    if(IsValid(newX, newY) && presentGrid[newx][newY] == '*') count++;
+
+    return count;
+}
+
+
+stateAfterOneMove = (x, y, presentGrid) => {
+    // return nextState of grid representation
+    var nextGrid = [...presentGrid];
+
+    for(var i = 0; i < presentGrid.length; i++) {
+        var len = presentGrid[i].length;
+        for(var k = 0; k < len; k++) {
+            var charValue = presentGrid[i][k];
+
+            var check;
+            if(charValue == '*') {
+                check = checkNeighbor(i, k, presentGrid);
+                if(check >= 2) {
+                    nextGrid[i][k] = '*';
+                }
+                else {
+                    nextGrid[i][k] = '.';
+                }
+            }
+            else if( charValue == '.') {
+                check = checkNeighbor(i, k, presentGrid);
+                if(check >= 3) {
+                    nextGrid[i][k] = '*';
+                }
+                else {
+                    nextGrid[i][k] = '.';
+                }
+            }
+        }
+    }
+
+    return nextGrid;
+}
+
+
+stateAfterMoves = (x, y, presentGrid, presentState, nextState) => {
+
+    for(var i = presentState; i <= nextState; i++) {
+        var nextGrid = stateAfterOneMove(x, y, presentGrid)
+        presentGrid = [...nextGrid];
+    }
+
+    return nextGrid;
+}
 
 // @route patch /grids/:id/after/age?1,2,3
 // @description get grids of different state
@@ -101,7 +179,7 @@ stateAfterMoves = (x, y, presentGrid, presentState, nextState) => {
 router.get('/:id/after', (req, res) => {
 
     //spliting age data using comma
-    var age_str = req.query[age];
+    var age_str = req.query['age'];
     var agelist = age_str.split(',');
 
     // tring agelist (array) if any space remaining
@@ -115,6 +193,7 @@ router.get('/:id/after', (req, res) => {
 
             // making actual gaming grid
             let presentGrid = makeGameGrid(x, y, grid);
+            console.log(presentGrid);
             var stateCount = 0;
 
             // result data
@@ -131,6 +210,7 @@ router.get('/:id/after', (req, res) => {
 
                 data.push(newGrid);
                 presentState = nextState;
+                presentGrid = newGrid;
             }
 
             res.status(200).json({Id, xx, yy, data});
