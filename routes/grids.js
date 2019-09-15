@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
       res.status(201).json(grid);
     })
     .catch(err => {
-      res.status(400).send("unable to save to database");
+      res.status(400).json({ errors: 'unable to save to database' });
     });
 });
 
@@ -55,7 +55,7 @@ router.patch('/:id', (req, res) => {
         res.status(202).json({ msg: 'Updated successfully' })
     })
     .catch(err => {
-        res.status(400).json({ error: 'Unable to update the Database' })
+        res.status(400).json({ errors: 'Unable to update the Database' })
     });
 });
 
@@ -68,9 +68,31 @@ router.get('/:id', (req, res) => {
             res.status(200).json(grid)
         })
 		.catch(err => {
-            res.status(404).json({ nopostfound: 'No grid found' })
+            res.status(404).json({ errors: 'No grid found' })
         });
 });
+
+
+
+// gaming functionality
+
+makeGameGrid = (x, y, gridString) => {
+    var len = gridString.length;
+    let gridArray;
+
+    for(var i = 0; i < len; ) {
+        var eachRow = gridString.substring(i, i+x);
+        gridArray.push(eachRow);
+        i = i+x;
+    }
+
+    return gridArray;
+}
+
+
+stateAfterMoves = (x, y, presentGrid, presentState, nextState) => {
+    // return nextState of grid representation
+}
 
 
 // @route patch /grids/:id/after/age?1,2,3
@@ -91,12 +113,30 @@ router.get('/:id/after', (req, res) => {
     Grid.findById(req.params.id)
         .then(grid => {
 
-            // main logic
+            // making actual gaming grid
+            let presentGrid = makeGameGrid(x, y, grid);
+            var stateCount = 0;
 
-            res.status(200).json(grid)
+            // result data
+            var data;
+            var Id = req.params.id;
+            var xx = x;
+            var yy = y;
+
+            // determining new state
+            for(var i = 0; i < agelist.length; i++) {
+                var nextState = agelist[i];
+
+                var newGrid = stateAfterMoves(x, y, presentGrid, presentState, nextState);
+
+                data.push(newGrid);
+                presentState = nextState;
+            }
+
+            res.status(200).json({Id, xx, yy, data});
         })
         .catch(err => {
-            res.status(404).json({ nopostfound: 'No grid found' })
+            res.status(404).json({ errors: 'No grid found' })
         });
 });
 
