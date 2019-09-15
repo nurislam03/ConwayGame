@@ -59,7 +59,27 @@ router.patch('/:id', (req, res) => {
     });
 });
 
+// @route patch /grids/:id
+// @description get grid
+// @access Public
+router.get('/:id', (req, res) => {
 
+    Grid.findByIdAndUpdate(req.params.id, req.body)
+    .then(grid => {
+        res.status(202).json({ msg: 'Updated successfully' })
+    })
+    .catch(err => {
+        res.status(400).json({ error: 'Unable to update the Database' })
+    });
+
+    Grid.findById(req.params.id)
+		.then(grid => {
+            res.status(200).json(grid)
+        })
+		.catch(err => {
+            res.status(404).json({ nopostfound: 'No grid found' })
+        });
+});
 
 
 module.exports = router;
