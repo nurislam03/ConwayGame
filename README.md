@@ -13,8 +13,8 @@
 
 
 ###### NOTE:
-- '*' means alive cell
-- '.' means dead cell
+- ' * ' means alive cell
+- ' . ' means dead cell
 
 
 ### APIs details:
