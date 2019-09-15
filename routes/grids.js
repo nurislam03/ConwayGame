@@ -78,7 +78,26 @@ router.get('/:id', (req, res) => {
 // @access Public
 router.get('/:id/after', (req, res) => {
 
+    //spliting age data using comma
+    var age_str = req.query[age];
+    var agelist = age_str.split(',');
 
+    // tring agelist (array) if any space remaining
+    for (var i = 0; i < agelist.length; i++) {
+        agelist[i] = agelist[i].trim()
+    }
+
+
+    Grid.findById(req.params.id)
+        .then(grid => {
+
+            // main logic
+
+            res.status(200).json(grid)
+        })
+        .catch(err => {
+            res.status(404).json({ nopostfound: 'No grid found' })
+        });
 });
 
 module.exports = router;
